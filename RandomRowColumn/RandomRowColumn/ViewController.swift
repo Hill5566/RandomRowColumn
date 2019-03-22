@@ -10,8 +10,12 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    let minimumLineSpacingForSection:CGFloat = 5
+    let minimumInteritemSpacingForSection:CGFloat = 1
+    
+    
     var row:Int = 3
-    var column:Int = 10
+    var column:Int = 6
     var lattics:[lattic] = []
     
     
@@ -23,19 +27,31 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mCollectionView.collectionViewLayout.invalidateLayout()
         
-        for row in 0..<(row+1) {
-            for column in 0..<column {
+        for row in 1...(row+1) {
+            for column in 1...column {
                 lattics.append(lattic(row: row, column: column, selected: false))
             }
         }
         
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
+            self.lattics = []
             
-            self.randomRow = Int.random(in: 0..<self.row)
-            self.randomColumn = Int.random(in: 0..<self.column)
+            self.randomRow = Int.random(in: 1...self.row)
+            self.randomColumn = Int.random(in: 1...self.column)
             
+            print("row:", self.randomRow, "column:", self.randomColumn)
             
+            for row in 1...(self.row+1) {
+                for column in 1...self.column {
+                    if row == self.randomRow && column == self.randomColumn {
+                        self.lattics.append(lattic(row: row, column: column, selected: true))
+                    } else {
+                        self.lattics.append(lattic(row: row, column: column, selected: false))
+                    }
+                }
+            }
             self.mCollectionView.reloadData()
         }
     }
@@ -54,15 +70,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         let width = collectionView.frame.width
         
-        return CGSize(width: (width-CGFloat(column))/CGFloat(column), height: 100)
+        let height = collectionView.frame.height
+        
+        let w = (width-CGFloat(column)*minimumInteritemSpacingForSection)/CGFloat(column)
+        let h = (height-CGFloat(row)*minimumLineSpacingForSection)/CGFloat(row+1)
+        
+        return CGSize(width: w, height:h)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return minimumLineSpacingForSection
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return minimumInteritemSpacingForSection
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -78,10 +99,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let randomCell = collectionView.dequeueReusableCell(withReuseIdentifier: "RandomCell", for: indexPath) as! RandomCollectionViewCell
         let confirmCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ConfirmCell", for: indexPath) as! ConfirmCollectionViewCell
         
-        if lattics[indexPath.row].selected {
+        let lattic = lattics[indexPath.row]
+        
+        if lattic.selected {
             randomCell.label.text = "Random"
+            randomCell.backgroundColor = UIColor.white
         } else {
-            randomCell.label.text = "\(indexPath.row+1)"
+            randomCell.label.text = "\(lattic.row).\(lattic.column)"
+            randomCell.backgroundColor = UIColor.gray
         }
         
         
