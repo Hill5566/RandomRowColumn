@@ -8,16 +8,17 @@
 
 import UIKit
 
+let selectedBlueColor = UIColor(red: 27/255, green: 211/255, blue: 213/255, alpha: 1)
+
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    let minimumLineSpacingForSection:CGFloat = 5
-    let minimumInteritemSpacingForSection:CGFloat = 1
-    
+    let minimumLineSpacingForSection:CGFloat = 0
+    let minimumInteritemSpacingForSection:CGFloat = 0
+    let randomTimeInterval = 3.0
     
     var row:Int = 3
     var column:Int = 6
     var lattics:[lattic] = []
-    
     
     var randomRow = 0
     var randomColumn = 0
@@ -32,7 +33,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         for row in 1...(row+1) {
             let randomColor = UIColor.random
             for column in 1...column {
-                lattics.append(lattic(row: row, column: column, backgroundColor: randomColor.withAlphaComponent(0.5), bottomColor: randomColor, selected: false))
+                lattics.append(lattic(row: row, column: column, backgroundColor: randomColor.withAlphaComponent(0.2), bottomColor: randomColor, selected: false))
             }
         }
         
@@ -41,8 +42,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func startRandom() {
         
-        
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: randomTimeInterval, repeats: true) { (timer) in
             self.clearTalbe()
             
             self.randomRow = Int.random(in: 1...self.row)
@@ -104,26 +104,41 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         let lattic = lattics[indexPath.row]
         
-        if lattic.column == self.randomColumn {
+        randomCell.label.text = lattic.selected ? "random" : ""
+        randomCell.bottomLabel.backgroundColor = lattic.bottomColor
+        randomCell.backView.backgroundColor = lattic.backgroundColor
+        
+        if lattic.column == randomColumn {
             
-            randomCell.backgroundColor = UIColor.purple
-            confirmCell.backgroundColor = UIColor.blue
+            if lattic.row == 1 {
+                randomCell.threeSidesSelectedView.isHidden = false
+                randomCell.twoSidesSelectedView.isHidden = true
+            } else {
+                randomCell.threeSidesSelectedView.isHidden = true
+                randomCell.twoSidesSelectedView.isHidden = false
+            }
+            
+            confirmCell.selectedFrameView.isHidden = false
+            
+            confirmCell.selectedView.backgroundColor = UIColor(red: 27/255, green: 211/255, blue: 213/255, alpha: 1)
+            confirmCell.selectedView.layer.borderColor = UIColor(red: 27/255, green: 211/255, blue: 213/255, alpha: 1).cgColor
+            
+            confirmCell.label.textColor = .white
+            
         } else {
-            randomCell.backgroundColor = UIColor.gray
-            confirmCell.backgroundColor = UIColor.gray
+            
+            randomCell.twoSidesSelectedView.isHidden = true
+            randomCell.threeSidesSelectedView.isHidden = true
+            
+            confirmCell.selectedFrameView.isHidden = true
+            
+            confirmCell.selectedView.backgroundColor = UIColor.clear
+            confirmCell.selectedView.layer.borderColor = UIColor(red: 159/255, green: 159/255, blue: 159/255, alpha: 1).cgColor
+            
+            confirmCell.label.textColor = .gray
         }
         
-        if lattic.selected {
-            randomCell.label.text = "Random"
-        } else {
-            randomCell.label.text = ""
-        }
-        
-        if indexPath.row < row*column {
-            return randomCell
-        } else {
-            return confirmCell
-        }
+        return indexPath.row < row*column ? randomCell : confirmCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -140,7 +155,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             print(indexPath.row)
             print((row)*column+randomColumn)
         }
-        
     }
     
     struct lattic {
