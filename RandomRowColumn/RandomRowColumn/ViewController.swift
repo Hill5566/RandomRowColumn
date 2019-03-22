@@ -30,38 +30,41 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         mCollectionView.collectionViewLayout.invalidateLayout()
         
         for row in 1...(row+1) {
+            let randomColor = UIColor.random
             for column in 1...column {
-                lattics.append(lattic(row: row, column: column, selected: false))
+                lattics.append(lattic(row: row, column: column, backgroundColor: randomColor.withAlphaComponent(0.5), bottomColor: randomColor, selected: false))
             }
         }
         
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
-            self.lattics = []
+        startRandom()
+    }
+    
+    func startRandom() {
+        
+        
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
+            self.clearTalbe()
             
             self.randomRow = Int.random(in: 1...self.row)
             self.randomColumn = Int.random(in: 1...self.column)
             
             print("row:", self.randomRow, "column:", self.randomColumn)
-            
-            for row in 1...(self.row+1) {
-                for column in 1...self.column {
-                    if row == self.randomRow && column == self.randomColumn {
-                        self.lattics.append(lattic(row: row, column: column, selected: true))
-                    } else {
-                        self.lattics.append(lattic(row: row, column: column, selected: false))
-                    }
+
+            for (index, lattic) in self.lattics.enumerated() {
+                if lattic.row == self.randomRow && lattic.column == self.randomColumn {
+                    self.lattics[index].selected = true
                 }
             }
+
             self.mCollectionView.reloadData()
         }
     }
     
-    func clearTable() {
-        lattics = []
-        for row in 0..<(row+1) {
-            for column in 0..<column {
-                lattics.append(lattic(row: row, column: column, selected: false))
-            }
+    func clearTalbe() {
+        randomRow = 0
+        randomColumn = 0
+        for (index, _) in lattics.enumerated() {
+            lattics[index].selected = false
         }
         mCollectionView.reloadData()
     }
@@ -101,14 +104,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         let lattic = lattics[indexPath.row]
         
-        if lattic.selected {
-            randomCell.label.text = "Random"
-            randomCell.backgroundColor = UIColor.white
+        if lattic.column == self.randomColumn {
+            
+            randomCell.backgroundColor = UIColor.purple
+            confirmCell.backgroundColor = UIColor.blue
         } else {
-            randomCell.label.text = "\(lattic.row).\(lattic.column)"
             randomCell.backgroundColor = UIColor.gray
+            confirmCell.backgroundColor = UIColor.gray
         }
         
+        if lattic.selected {
+            randomCell.label.text = "Random"
+        } else {
+            randomCell.label.text = ""
+        }
         
         if indexPath.row < row*column {
             return randomCell
@@ -119,16 +128,26 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
       
-        if indexPath.row < row*column {
+        if indexPath.row < row*column  {
             print("RANDOM")
         } else {
             print("CONFIRM")
         }
+        
+        if indexPath.row+1 == (row)*column+randomColumn {
+            clearTalbe()
+        } else {
+            print(indexPath.row)
+            print((row)*column+randomColumn)
+        }
+        
     }
     
     struct lattic {
         var row:Int
         var column:Int
+        var backgroundColor:UIColor
+        var bottomColor:UIColor
         var selected:Bool
     }
 }

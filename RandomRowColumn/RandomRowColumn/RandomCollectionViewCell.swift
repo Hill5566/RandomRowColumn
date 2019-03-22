@@ -11,4 +11,5 @@ import UIKit
 class RandomCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var bottomLabel: UILabel!
 }
