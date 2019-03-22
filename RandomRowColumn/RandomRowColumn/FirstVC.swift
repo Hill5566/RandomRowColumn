@@ -10,21 +10,33 @@ import UIKit
 
 class FirstVC: UIViewController {
 
+    @IBOutlet weak var rowTF: UITextField!
+    
+    @IBOutlet weak var columnTF: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func click(_ sender: UIButton) {
+        
+        view.endEditing(true)
+        
+        if let _ = Int(rowTF.text!), let _ = Int(columnTF.text!) {
+            performSegue(withIdentifier: "table", sender: nil)
+        }
     }
-    */
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let vc = segue.destination as! ViewController
+        vc.row = Int(rowTF.text!)!
+        vc.column = Int(columnTF.text!)!
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }

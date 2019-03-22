@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="R69-r4-PSh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8YS-9U-p45">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zon-C5-a49">
-                                <rect key="frame" x="125.5" y="120" width="124" height="30"/>
+                                <rect key="frame" x="125.5" y="164" width="124" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="124" id="Ibj-lz-l2n"/>
                                 </constraints>
@@ -28,7 +28,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EKN-SB-qP2">
-                                <rect key="frame" x="125.5" y="172" width="124" height="30"/>
+                                <rect key="frame" x="125.5" y="216" width="124" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="124" id="pAF-gM-6Ds"/>
                                 </constraints>
@@ -37,22 +37,22 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Row" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdM-2d-ZQ1">
-                                <rect key="frame" x="80.5" y="124.5" width="33" height="21"/>
+                                <rect key="frame" x="80.5" y="168.5" width="33" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Column" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzo-1m-Haf">
-                                <rect key="frame" x="54.5" y="176.5" width="59" height="21"/>
+                                <rect key="frame" x="54.5" y="220.5" width="59" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A31-LV-B0B">
-                                <rect key="frame" x="172" y="224" width="31" height="30"/>
+                                <rect key="frame" x="172" y="268" width="31" height="30"/>
                                 <state key="normal" title="確定"/>
                                 <connections>
-                                    <segue destination="R69-r4-PSh" kind="show" id="ESv-Qs-UCW"/>
+                                    <action selector="click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GPV-7D-Rmn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -73,10 +73,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="C5M-xb-waa"/>
+                    <connections>
+                        <outlet property="columnTF" destination="EKN-SB-qP2" id="QKD-mg-kWw"/>
+                        <outlet property="rowTF" destination="zon-C5-a49" id="pu8-4N-VCZ"/>
+                        <segue destination="R69-r4-PSh" kind="show" identifier="table" id="7EC-Zi-flj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="620" y="5"/>
+            <point key="canvasLocation" x="1559.2" y="4.9475262368815596"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="6HD-XF-ncq">
@@ -87,7 +93,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="m49-nm-YB4">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PxT-J9-Zcg">
                                     <size key="itemSize" width="50" height="50"/>
@@ -232,7 +238,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tEx-Og-3GG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1325.5999999999999" y="10.344827586206897"/>
+            <point key="canvasLocation" x="2264.8000000000002" y="10.344827586206897"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="s8K-nT-6e6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8YS-9U-p45" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nBE-mq-GZV">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="1z7-SC-ALt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="032-GA-Hbg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="620" y="4.9475262368815596"/>
         </scene>
     </scenes>
 </document>
